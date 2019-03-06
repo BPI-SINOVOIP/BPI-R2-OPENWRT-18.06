@@ -16,6 +16,23 @@ ifeq ($(SUBTARGET),mt7622)
 KERNEL_LOADADDR = 0x41080000
 endif
 
+define Image/Build/SDImage
+	./make_bundle_image.sh $(KDIR)/mtk-bpi-r2-SD.img \
+			       $(STAGING_DIR_IMAGE)/mtk-bpi-r2-preloader-sd.bin \
+			       $(STAGING_DIR_IMAGE)/mtk-bpi-r2-uboot.bin \
+			       $(KDIR)/tmp/openwrt-mediatek-mt7623-7623n-bananapi-bpi-r2-initramfs-kernel.bin \
+			       $(KDIR)/root.squashfs
+endef
+
+define Image/Build/EMMCImage
+	./make_bundle_image.sh $(KDIR)/mtk-bpi-r2-EMMC.img \
+			       $(STAGING_DIR_IMAGE)/mtk-bpi-r2-preloader-emmc.bin \
+			       $(STAGING_DIR_IMAGE)/mtk-bpi-r2-uboot.bin \
+			       $(KDIR)/tmp/openwrt-mediatek-mt7623-7623n-bananapi-bpi-r2-initramfs-kernel.bin \
+			       $(KDIR)/root.squashfs
+endef
+
+
 # default all platform image(fit) build 
 define Device/Default
   PROFILES = Default $$(DEVICE_NAME)
@@ -46,6 +63,8 @@ endif
 
 define Image/Build
 	$(call Image/Build/$(1),$(1))
+	$(call Image/Build/SDImage,$(1))
+	$(call Image/Build/EMMCImage,$(1))
 endef
 
 $(eval $(call BuildImage))
