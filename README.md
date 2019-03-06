@@ -18,6 +18,6 @@ apt-get install subversion build-essential libncurses5-dev zlib1g-dev gawk git c
 
 5. Run "make -j1 V=s" commmand to build code
 
-6. After built, the image will be created in here: 
+6. After built, the kernel will be created in here: 
 
 bin/targets/mediatek/mt7623/openwrt-mediatek-mt7623-7623n-bananapi-bpi-r2-initramfs-kernel.bin
