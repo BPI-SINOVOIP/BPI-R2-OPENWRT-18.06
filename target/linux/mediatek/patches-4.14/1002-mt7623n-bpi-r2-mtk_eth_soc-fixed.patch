@@ -1,0 +1,23 @@
+diff -urN linux-4.14.171.org/drivers/net/ethernet/mediatek/mtk_eth_soc.c linux-4.14.171/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+--- linux-4.14.171.org/drivers/net/ethernet/mediatek/mtk_eth_soc.c	2021-04-11 09:03:03.044813250 +0800
++++ linux-4.14.171/drivers/net/ethernet/mediatek/mtk_eth_soc.c	2021-04-11 09:04:03.000000000 +0800
+@@ -1960,7 +1960,9 @@
+ 
+ 	pm_runtime_enable(eth->dev);
+ 	pm_runtime_get_sync(eth->dev);
+-
++	
++	clk_set_rate(eth->clks[MTK_CLK_TRGPLL], 250000000);
++	
+ 	ret = mtk_clk_enable(eth);
+ 	if (ret)
+ 		goto err_disable_pm;
+@@ -1993,7 +1995,7 @@
+ 	 * being invoked.
+ 	 */
+ 	for (i = 0; i < MTK_MAC_COUNT; i++)
+-		mtk_w32(eth, 0, MTK_MAC_MCR(i));
++		mtk_w32(eth, MAC_MCR_FIXED_LINK, MTK_MAC_MCR(i));
+ 
+ 	/* Indicates CDM to parse the MTK special tag from CPU
+ 	 * which also is working out for untag packets.
